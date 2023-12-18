@@ -106,9 +106,26 @@
       getUniqueColumnValues(columnName) {
         // Pull out unique policy values for column dropdown filters
         const uniqueValues = new Set(
-          this.formattedPolicies.map((policy) => policy[columnName])
+          this.formattedPolicies.map((policy) => this.formatDropdownItem(columnName, policy[columnName]))
         );
         return [...uniqueValues];
+      },
+      formatDropdownItem(columnName, value) {
+        // Values that need special formatting
+        const currencyFields = ['insuredAmount', 'adminFee', 'iptAmount', 'premium', 'policyFee'];
+        const percentageFields = ['commission'];
+      
+        // Check if the columnName matches a currency field
+        if (currencyFields.includes(columnName)) {
+          return { value, text: this.formatCurrency(value) };
+        }
+        // Check if the columnName matches a percentage field
+        if (percentageFields.includes(columnName)) {
+          return { value, text: this.formatPercentage(value) };
+        }
+      
+        // For other values, use the value itself as both value and text
+        return { value, text: value };
       },
       formatCurrency(value) {
         // Ensure value is a number and format to pounds
