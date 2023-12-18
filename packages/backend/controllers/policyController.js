@@ -15,4 +15,17 @@ const uploadCSV = async (req, res) => {
   }
 };
 
-export default { uploadCSV };
+// Fetch all policies from the database
+const getAllPolicies = async (req, res) => {
+  try {
+    const policies = await PolicyService.getAllPolicies();
+
+    // Send the policies as a JSON response
+    res.json(policies);
+  } catch (error) {
+    console.error('Error fetching policies:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+export default { uploadCSV, getAllPolicies };

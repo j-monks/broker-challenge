@@ -8,5 +8,6 @@ const router = express.Router();
 
 // Define policy routes
 router.post('/upload', upload.single('file'), PolicyController.uploadCSV);
+router.get('/all', PolicyController.getAllPolicies);
 
 export default router;

@@ -1,7 +1,7 @@
+import * as PolicyRepository from '../../repositories/policyRepository.js';
 import db from '../../models/index.js';
 import request from 'supertest';
 import server from '../../app.js';
-
 
 // Establish database connection before running tests
 beforeAll(async () => {
@@ -44,4 +44,15 @@ describe('Upload CSV Endpoint', () => {
     // console.log(response.body.parsedData);
     expect(response.status).toBe(200);
   });
+
+  it('should fetch all policies', async () => {
+    const policies = await PolicyRepository.retrieveAllPolicies();
+
+    // Make a GET request to the endpoint that fetches policies
+    const response = await request(server).get('/api/policies/all');
+    
+    // console.log(response.body);
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(policies);
+  }, 10000);
 });
