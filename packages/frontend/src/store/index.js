@@ -1,7 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import upload from './upload';
+import policies from './policies';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -13,5 +15,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
+    upload,
+    policies
   }
-})
+});
