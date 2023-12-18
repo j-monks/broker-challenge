@@ -29,7 +29,7 @@ const actions = {
 };
 
 const getters = {
-  uploadFile(state) {
+  uploadedFile(state) {
     return state.uploadedFile;
   },
   uploadStatus(state) {
