@@ -3,7 +3,7 @@
       <h2 class="mb-2">POLICIES</h2>
       <vue-good-table
         :columns="columns"
-        :rows="policies"
+        :rows="formattedPolicies"
         :searchOptions="searchOptions"
         :paginationOptions="paginationOptions"
         :max-height="tableMaxHeight"
@@ -35,6 +35,15 @@
     },
     computed: {
       ...mapGetters('policies', ['policies']),
+      formattedPolicies() {
+      return this.policies.map((policy) => {
+          return {
+            ...policy,
+            startDate: policy.startDate === '01-01-1000' ? 'Not Known' : policy.startDate,
+            premium: policy.premium ? policy.premium : 'TBC'
+          };
+        });
+      },
       tableMaxHeight() {
         // Work required height to fit view
         const windowHeight = window.innerHeight;
@@ -97,7 +106,7 @@
       getUniqueColumnValues(columnName) {
         // Pull out unique policy values for column dropdown filters
         const uniqueValues = new Set(
-          this.policies.map((policy) => policy[columnName])
+          this.formattedPolicies.map((policy) => policy[columnName])
         );
         return [...uniqueValues];
       },
@@ -108,6 +117,10 @@
             style: "currency",
             currency: "GBP",
           });
+        }
+        // Handle TBC values
+        if (value === 'TBC') {
+          return value;
         }
       },
       formatPercentage(value) {

@@ -5,6 +5,23 @@ import moment from 'moment';
  * Note: Virtual fields defined here are not stored in the database.
  * Instead, they're used to normalise and aggregate data, mapping to actual DB fields.
  */
+
+const setDateFormat = (value) => {
+  if (moment(value, 'DD/MM/YYYY', true).isValid()) {
+    return moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD');
+  } else {
+    return '1000-01-01';
+  }
+};
+
+const getDateFormat = (dateValue) => {
+  if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
+    return moment(dateValue).format('DD-MM-YYYY');
+  } else {
+    return '01-01-1000';
+  }
+};
+
 export default (sequelize, DataTypes) => {
   const Policy = sequelize.define('policy', {
     id: {
@@ -37,59 +54,33 @@ export default (sequelize, DataTypes) => {
     startDate: {
       type: DataTypes.DATEONLY,
       set: function(value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('startDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('startDate', '1000-01-01');
-        }
+        this.setDataValue('startDate', setDateFormat(value));
       },
       get: function() {
-        const dateValue = this.getDataValue('startDate');
-        if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
-          return moment(dateValue).format('DD-MM-YYYY');
-        } else {
-          return '01-01-1000';
-        }
+        return getDateFormat(this.getDataValue('startDate'));
       }
     },
     initiationDate: {
       type: DataTypes.VIRTUAL,
       allowNull: true,
-      set: function (value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('startDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('startDate', '1000-01-01');
-        }
+      set: function(value) {
+        this.setDataValue('startDate', setDateFormat(value));
       }
     },
     endDate: {
       type: DataTypes.DATEONLY,
       set: function(value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('endDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('endDate', '1000-01-01');
-        }
+        this.setDataValue('endDate', setDateFormat(value));
       },
       get: function() {
-        const dateValue = this.getDataValue('endDate');
-        if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
-          return moment(dateValue).format('DD-MM-YYYY');
-        } else {
-          return '01-01-1000';
-        }
+        return getDateFormat(this.getDataValue('endDate'));
       }
     },
     expirationDate: {
       type: DataTypes.VIRTUAL,
       allowNull: true,
-      set: function (value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('endDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('endDate', '1000-01-01');
-        }
+      set: function(value) {
+        this.setDataValue('endDate', setDateFormat(value));
       }
     },
     adminFee: {
@@ -161,38 +152,17 @@ export default (sequelize, DataTypes) => {
     effectiveDate: {
       type: DataTypes.DATEONLY,
       set: function(value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('effectiveDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('effectiveDate', '1000-01-01');
-        }
+        this.setDataValue('effectiveDate', setDateFormat(value));
       },
       get: function() {
-        const dateValue = this.getDataValue('effectiveDate');
-        if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
-          return moment(dateValue).format('DD-MM-YYYY');
-        } else {
-          return '01-01-1000';
-        }
+        return getDateFormat(this.getDataValue('effectiveDate'));
       }
     },
     activationDate: {
       type: DataTypes.VIRTUAL,
       allowNull: true,
       set: function(value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('effectiveDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('effectiveDate', '1000-01-01');
-        }
-      },
-      get: function() {
-        const dateValue = this.getDataValue('effectiveDate');
-        if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
-          return moment(dateValue).format('YYYY-MM-DD');
-        } else {
-          return '1000-01-01';
-        }
+        this.setDataValue('effectiveDate', setDateFormat(value));
       }
     },
     insurerPolicyNumber: {
@@ -292,39 +262,18 @@ export default (sequelize, DataTypes) => {
     renewalDate: {
       type: DataTypes.DATEONLY,
       set: function(value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('renewalDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('renewalDate', '1000-01-01');
-        }
+        this.setDataValue('renewalDate', setDateFormat(value));
       },
       get: function() {
-        const dateValue = this.getDataValue('renewalDate');
-        if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
-          return moment(dateValue).format('DD-MM-YYYY');
-        } else {
-          return '01-01-1000';
-        }
+        return getDateFormat(this.getDataValue('renewalDate'));
       }
     },
     nextRenewalDate: {
       type: DataTypes.VIRTUAL,
       allowNull: true,
       set: function(value) {
-        if (moment(value, 'DD/MM/YYYY', true).isValid()) {
-          this.setDataValue('renewalDate', moment(value, 'DD/MM/YYYY').format('YYYY-MM-DD'));
-        } else {
-          this.setDataValue('renewalDate', '1000-01-01');
-        }
+        this.setDataValue('renewalDate', setDateFormat(value));
       },
-      get: function() {
-        const dateValue = this.getDataValue('renewalDate');
-        if (moment(dateValue, 'YYYY-MM-DD', true).isValid()) {
-          return moment(dateValue).format('DD-MM-YYYY');
-        } else {
-          return '01-01-1000';
-        }
-      }
     },
     rootPolicyRef: {
       type: DataTypes.STRING(50),
